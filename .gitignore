@@ -1,0 +1,6 @@
+#Ignorar pastas de dependências
+node_modules/
+vendor/
+
+# Ignorar arquivos de configuração local e chaves secretas
+.env

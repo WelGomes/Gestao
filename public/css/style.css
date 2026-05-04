@@ -1,0 +1,25 @@
+/* Imagem compacta no addon do Bootstrap (input-group-text) */
+.login-input-addon-img {
+    height: 1.125rem;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* Login: altura estável (mensagens de erro) e padding igual ao .is-invalid no campo */
+.login-feedback-slot {
+    min-height: 3rem;
+}
+
+.login-feedback-slot .invalid-feedback {
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.login-feedback-slot .invalid-feedback:empty {
+    visibility: hidden;
+}
+
+.login-form .input-group .form-control {
+    padding-right: calc(1.5em + 0.75rem);
+}

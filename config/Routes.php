@@ -18,7 +18,7 @@ final class Routes
         $routeArray = [
             "GET"  => [
                 "/"          => fn() => self::instantiateClass(class: "LoginController", method: "index", api: false),
-                "/home"      => fn() => self::instantiateClass(class: "LoginController", method: "show", api: false, authMethod: $this->auth->verifySession()),
+                "/home"      => fn() => self::instantiateClass(class: "LoginController", method: "show", api: false, authMethod: "verifySession"),
             ],
             "POST" => [
                 "/api/login" => fn() => self::instantiateClass(class: "LoginController", method: "show", api: true),
@@ -32,7 +32,7 @@ final class Routes
         return $routeArray[$method][$uri]();
     }
 
-    private function instantiateClass(string $class, string $method, bool $api = false, ?callable $authMethod = null): callable
+    private function instantiateClass(string $class, string $method, bool $api = false, ?string $authMethod = null): callable
     {
         if(!is_null($authMethod)) {
             $this->auth->$authMethod();

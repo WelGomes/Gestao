@@ -46,9 +46,15 @@ class Auth
     {
         if(!isset($_SESSION["user_name"])) {
             header("location: /");
-            exit;
+            die;
         }
     }
 
+    public function userLogged(): void
+    {
+        if(isset($_SESSION["user_name"])) {
+            header("location: /home");    
+        }
+    }
 
 }

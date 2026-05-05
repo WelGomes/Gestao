@@ -17,7 +17,7 @@ final class Routes
     {
         $routeArray = [
             "GET"  => [
-                "/"          => fn() => self::instantiateClass(class: "LoginController", method: "index", api: false),
+                "/"          => fn() => self::instantiateClass(class: "LoginController", method: "index", api: false, authMethod: "userLogged"),
                 "/home"      => fn() => self::instantiateClass(class: "LoginController", method: "show", api: false, authMethod: "verifySession"),
             ],
             "POST" => [

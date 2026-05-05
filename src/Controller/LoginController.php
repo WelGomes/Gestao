@@ -13,7 +13,7 @@ class LoginController extends Controller
     }
 
     public function index(): void
-    {   
+    {
         $this->auth->generateCSRF();
         require_once __DIR__ . "../../../public/views/login.php";
     }
@@ -22,7 +22,4 @@ class LoginController extends Controller
     {
         require_once __DIR__ . "../../../public/views/home.php";
     }
-
-    
-
 }

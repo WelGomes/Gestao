@@ -10,10 +10,10 @@ const msgErrorEmail         = document.querySelector("#msgErrorEmail");
 const msgErrorPassword      = document.querySelector("#msgErrorPassword");
 const inputSave             = document.querySelector("#save");
 const btnLogin              = document.querySelector("#btnLogin");
+const csrf                  = document.querySelector("#csrf");
 
 btnLogin.addEventListener("click", async (event) => {
     event.preventDefault();
-
 
     if(inputEmail.value == "") {
         emailInvalid("Preencha o campo corretamente com o e-mail");
@@ -27,7 +27,7 @@ btnLogin.addEventListener("click", async (event) => {
         
         try {
 
-            const data = await callApi(inputEmail.value, inputPassword.value);
+            const data = await callApi(inputEmail.value, inputPassword.value, csrf.value);
             
             if(data.status = 200 && data.login) {
                 window.location.href = "/home";
@@ -36,6 +36,7 @@ btnLogin.addEventListener("click", async (event) => {
         } catch(error) {
             emailInvalid("E-mail invalido");
             passwordInvalid("Senha inválida");
+            console.log(error);
         }
 
     }
@@ -83,7 +84,7 @@ function passwordInvalid(message)
     }, 3000);
 }
 
-async function callApi(email, password)
+async function callApi(email, password, csrf)
 {
     const response = await fetch("/api/login", 
         {
@@ -94,7 +95,8 @@ async function callApi(email, password)
             body: JSON.stringify(
                 { 
                     email   : email,
-                    password: password
+                    password: password,
+                    csrf    : csrf
                 }
             ),            
         }
@@ -103,7 +105,7 @@ async function callApi(email, password)
     const data = await response.json();
 
     if(data.status != 200) {
-        throw new Error(`Error na requisição, status: ${data.status}`);
+        throw new Error(`Error na requisição, status: ${data.status} ${data.message}`);
     }
 
     return data;

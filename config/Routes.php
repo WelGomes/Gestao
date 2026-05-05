@@ -3,18 +3,25 @@
 namespace Config;
 
 use Src\Exception\RoutesException;
+use Src\Middleware\Auth;
 
-abstract class Routes 
+final class Routes 
 {
-    public static function callRoutes(string $uri, string $method): callable
+    private Auth $auth;
+
+    public function __construct() {
+        $this->auth = new Auth();
+    }
+    
+    public function callRoutes(string $uri, string $method): callable
     {
         $routeArray = [
             "GET"  => [
-                "/"          => fn() => self::instantiateClass(class: "UserController", method: "index", api: false),
-                "/home"      => fn() => self::instantiateClass(class: "UserController", method: "show", api: false),
+                "/"          => fn() => self::instantiateClass(class: "LoginController", method: "index", api: false),
+                "/home"      => fn() => self::instantiateClass(class: "LoginController", method: "show", api: false, authMethod: $this->auth->verifySession()),
             ],
             "POST" => [
-                "/api/login" => fn() => self::instantiateClass(class: "UserAPIController", method: "show", api: true),
+                "/api/login" => fn() => self::instantiateClass(class: "LoginController", method: "show", api: true),
             ]
         ];
 
@@ -25,8 +32,12 @@ abstract class Routes
         return $routeArray[$method][$uri]();
     }
 
-    private static function instantiateClass(string $class, string $method, bool $api = false): callable
+    private function instantiateClass(string $class, string $method, bool $api = false, ?callable $authMethod = null): callable
     {
+        if(!is_null($authMethod)) {
+            $this->auth->$authMethod();
+        }
+
         if($api) {
             $dirClass = "\Src\Controller\API\\$class";
         } else {

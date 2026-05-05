@@ -8,8 +8,7 @@ use Override;
 use PDO;
 use PDOException;
 use Src\Enum\TypeUserEnum;
-use Src\Exception\UserException;
-use Src\Exception\UserRepositoryException;
+use Src\Exception\LoginException;
 use Src\Model\User;
 
 class UserRepository extends DAO implements Repository
@@ -32,7 +31,7 @@ class UserRepository extends DAO implements Repository
         $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if(!$user) {
-            throw new UserException("Usuário não existe");
+            throw new LoginException("Usuário ou senha incorreta");
         }
 
         $userReturn = null;

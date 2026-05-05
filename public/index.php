@@ -5,6 +5,8 @@ use Src\Exception\RoutesException;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+session_start();
+
 try {
     $file = __DIR__ . "/../";
     $dotenv = Dotenv\Dotenv::createImmutable($file);
@@ -13,7 +15,8 @@ try {
     $uri    = $_SERVER["REQUEST_URI"];
     $method = $_SERVER["REQUEST_METHOD"];
     
-    $routes = Routes::callRoutes(uri: $uri, method: $method)();
+    $routes = new Routes();
+    $routes->callRoutes(uri: $uri, method: $method)();
 
 } catch(RoutesException $ex) {
 

@@ -2,7 +2,8 @@
 
 namespace Src\Service;
 
-use Src\Exception\UserException;
+use Src\Exception\LoginException;
+use Src\Model\User;
 use Src\Repository\Repository;
 use Src\Repository\UserRepository;
 
@@ -15,15 +16,15 @@ class LoginService implements Service
         $this->userRepository = new UserRepository();
     }
 
-    public function findByEmail(string $email, string $password): bool
+    public function findByEmail(string $email, string $password): User
     {
         $user = $this->userRepository->findByEmail(email: $email);
 
         if(!password_verify($password, $user->getPassword())) {
-            throw new UserException("Senha incorreta!");
+            throw new LoginException("Usuário ou senha incorreta");
         }
 
-        return true;
+        return $user;
     }
 
 

@@ -9,6 +9,8 @@
     </div>
     <form class="d-flex flex-column w-100 gap-3 mx-auto" style="max-width: 520px;">
             
+            <input type="hidden" name="csrf" id="csrf" value="<?php echo $_SESSION["csrf_token"] ?>">
+
             <div class="input-group has-validation">
                 <span class="input-group-text py-2 border-primary" id="spanEmail"><i class="fa-solid fa-at" id="iconEmail"></i></span>
                 <div class="form-floating is-invalid">
@@ -33,7 +35,7 @@
 
             <div class="d-flex flex-row ms-2 pe-3 justify-content-between">
                 <div>
-                    <label for="save" class="d-flex flex-row gap-2" role="button">
+                    <label for="save" class="d-flex flex-row gap-2 text-dark" role="button">
                         <input type="checkbox" name="save" id="save">
                         Permanecer conectado
                     </label>
